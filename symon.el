@@ -463,7 +463,7 @@ while true; do
     echo $s | awk '{print \"rx:\"$7}'
     echo $s | awk '{print \"tx:\"$8}'
 
-    s=`hostinfo  | grep 'Load average' | awk '{print \"cpu:\"$3}' | sed 's/,//'`
+    s=`ps -A -o %cpu | awk '{s+=$1} END {print \"cpu:\"s}'`
     echo $s
 
     m1=`sysctl hw.memsize | sed 's/.*:\s*//'`
