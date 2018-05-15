@@ -454,7 +454,7 @@ supoprted in PLIST:
 ;;   + darwin monitors
 
 (defun symon-darwin--maybe-start-process ()
-  (symon--maybe-start-process (format "
+  (symon--maybe-start-process "
 while true; do
     echo \"----\"
 
@@ -473,8 +473,8 @@ while true; do
     s=`echo \"scale=2; (($m_active+$m_wired)*4096*100 / $m1)\"| bc -l`
     echo \"mem:$s\"
 
-    sleep %d
-done" symon-refresh-rate)))
+    sleep 4
+done"))
 
 (define-symon-monitor symon-darwin-cpu-monitor
   :index "CPU:" :unit "%" :sparkline t
