@@ -454,7 +454,7 @@ supoprted in PLIST:
 ;;   + darwin monitors
 
 (defun symon-darwin--maybe-start-process ()
-  (symon--maybe-start-process "
+  (symon--maybe-start-process (format "
 while true; do
     echo \"----\"
 
@@ -463,7 +463,7 @@ while true; do
     echo $s | awk '{print \"rx:\"$7}'
     echo $s | awk '{print \"tx:\"$8}'
 
-    s=`ps -A -o %cpu | awk '{s+=$1} END {print \"cpu:\"s}'`
+    s=`ps -A -o \%cpu | awk '{s+=$1} END {print \"cpu:\"s}'`
     echo $s
 
     m1=`sysctl hw.memsize | sed 's/.*:\s*//'`
@@ -473,8 +473,8 @@ while true; do
     s=`echo \"scale=2; (($m_active+$m_wired)*4096*100 / $m1)\"| bc -l`
     echo \"mem:$s\"
 
-    sleep 4
-done"))
+    sleep %d
+done" symon-refresh-rate)))
 
 (define-symon-monitor symon-darwin-cpu-monitor
   :index "CPU:" :unit "%" :sparkline t
