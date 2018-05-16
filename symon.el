@@ -462,9 +462,11 @@ while true; do
     s=`netstat -bi -I $interface | tail -1`;
     echo $s | awk '{print \"rx:\"$7}'
     echo $s | awk '{print \"tx:\"$8}'
-
-    s=`ps -A -o %s | awk '{s+=$1} END {print \"cpu:\"s}'`
-    echo $s
+                                      
+    cores=`hostinfo | grep 'processors are logically available' | cut -d' ' -f1`                              
+    cpus=`ps -A -o %s | awk '{s+=$1} END {print s}'`
+    s=$((cpus / cores))
+    echo $s | awk '{print \"cpu:\"$1}'
 
     m1=`sysctl hw.memsize | sed 's/.*:\s*//'`
     m_active=`vm_stat | grep 'Pages active' | sed 's/.*: *//'`
